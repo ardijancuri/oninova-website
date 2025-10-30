@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Ridley Grotesk';
+  src: url('./assets/fonts/Ridley-Grotesk-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ridley Grotesk';
+  src: url('./assets/fonts/Ridley-Grotesk-Lighttt.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ridley Grotesk';
+  src: url('./assets/fonts/Ridley-Grotesk-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ridley Grotesk';
+  src: url('./assets/fonts/Ridley-Grotesk-SemiBolddd.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Ridley Grotesk';
+  src: url('./assets/fonts/Ridley-Grotesk-Bolddd.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Hide webkit scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+html {
+  scrollbar-width: none;
+  background-color: white;
+}
+
+body {
+  font-family: 'Ridley Grotesk', sans-serif;
+  background-color: white;
+  /* Hide scrollbar for IE and Edge */
+  -ms-overflow-style: none;
+}
