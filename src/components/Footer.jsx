@@ -96,9 +96,6 @@ const Footer = () => {
         {/* Bottom Section - Copyright and Collaboration */}
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="mb-4 md:mb-0 text-[14px] md:text-[18px] lg:text-[26px] xl:text-[35px]">© 2026 Oninova. All Rights Reserved.</p>
-          <p className="text-[14px] md:text-[18px] lg:text-[26px] xl:text-[35px]">
-            In collaboration with <a href="https://sallta.net/" target="_blank" rel="noopener noreferrer" className="text-[#FFFB00] transition-colors">Sallta.net</a>
-          </p>
         </div>
       </div>
     </footer>
