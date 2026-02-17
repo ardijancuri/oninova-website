@@ -36,7 +36,7 @@ const ProjectCarousel = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth <= 768;
+      const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (!mobile && sliderRef.current) {
         sliderRef.current.style.transform = 'none';

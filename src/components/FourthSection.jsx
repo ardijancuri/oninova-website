@@ -100,7 +100,7 @@ const FourthSection = () => {
 
         {/* Bottom Section - Logo Grid in Alphabetical Order */}
         <div className="max-w-6xl mx-auto md:pt-10">
-          <div className="grid grid-cols-5 lg:grid-cols-8 gap-6 gap-y-14 lg:gap-14">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-6 gap-y-14 lg:gap-14">
             {alphabeticallyOrderedLogos.map((logo, index) => (
               <div
                 key={index}
@@ -109,7 +109,7 @@ const FourthSection = () => {
                 <img
                   src={logoMap[logo]}
                   alt={logo}
-                  className="h-12 h-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer"
+                  className="h-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer"
                 />
               </div>
             ))}

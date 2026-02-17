@@ -45,10 +45,10 @@ const ServicesHero = () => {
         </div>
 
         {/* Bottom Content - Responsive layout */}
-        <div className="w-full flex flex-col md:flex-row justify-between items-start md:items-end pb-2 px-2 md:pb-6 md:px-6">
+        <div className="w-full flex flex-col lg:flex-row justify-between items-start lg:items-end pb-2 px-2 md:pb-6 md:px-6">
           {/* Main Heading - Left-aligned for all screen sizes */}
-          <div className="text-left max-w-4xl mb-4 md:mb-0">
-            <h1 className="text-[32px] sm:text-[48px] md:text-[64px] lg:text-[86px] font-bold text-white leading-[0.85em]">
+          <div className="text-left max-w-4xl mb-4 lg:mb-0">
+            <h1 className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[86px] font-bold text-white leading-[0.85em]">
               Our services <br />
               transform your <br />
               digital presence!
@@ -56,8 +56,8 @@ const ServicesHero = () => {
           </div>
 
           {/* Tagline - Left-aligned for all screen sizes */}
-          <div className="text-left md:text-right">
-            <p className="text-[#FFFB00] uppercase tracking-widest font-semibold text-sm md:text-lg md:text-xl">
+          <div className="text-left lg:text-right">
+            <p className="text-[#FFFB00] uppercase tracking-widest font-semibold text-sm md:text-xl">
               Code. Create. Connect
             </p>
           </div>

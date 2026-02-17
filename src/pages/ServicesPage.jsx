@@ -80,11 +80,11 @@ const ServicesPage = () => {
               </h2>
 
               {/* Services Grid - 3 columns */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {/* Web Design & Development */}
                 <div className="border border-black rounded-2xl overflow-hidden">
                   <div className="p-8">
-                    <h3 className="text-[32px] font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Web Design & Development</h3>
+                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Web Design & Development</h3>
                     <p className="text-gray-600 mb-4 text-[20px]">Modern, responsive, and user-centered websites built for impact.</p>
                   </div>
                   <div className="h-[80px] overflow-hidden">
@@ -148,7 +148,7 @@ const ServicesPage = () => {
                 {/* Digital Growth & Marketing */}
                 <div className="border border-black rounded-2xl overflow-hidden">
                   <div className="p-8">
-                    <h3 className="text-[32px] font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Digital Growth & Marketing Strategy</h3>
+                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Digital Growth & Marketing Strategy</h3>
                     <p className="text-gray-600 mb-4 text-[20px]">Digital marketing built on data, structure and consistency.</p>
                   </div>
                   <div className="h-[80px] overflow-hidden">
@@ -212,7 +212,7 @@ const ServicesPage = () => {
                 {/* SEO & Performance */}
                 <div className="border border-black rounded-2xl overflow-hidden">
                   <div className="p-8">
-                    <h3 className="text-[32px] font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">SEO & Performance Optimization</h3>
+                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">SEO & Performance Optimization</h3>
                     <p className="text-gray-600 mb-4 text-[20px]">Optimizing your digital presence for long-term visibility and ROI.</p>
                   </div>
                   <div className="h-[80px] overflow-hidden">
