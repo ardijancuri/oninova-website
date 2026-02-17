@@ -35,6 +35,12 @@
     <meta name="twitter:image" content="https://oninova.net/storage/2025/07/oninova-preview-2.png" />
   </head>
   <body>
+    <!-- Hidden form for Netlify form detection at build time -->
+    <form name="newsletter" netlify netlify-honeypot="bot-field" hidden>
+      <input name="bot-field" />
+      <input name="email" type="email" />
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

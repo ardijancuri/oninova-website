@@ -59,17 +59,29 @@ const Footer = () => {
           
           {/* Newsletter Subscription */}
           <div className="lg:w-1/2">
-            <form className="space-y-4 text-right">
+            <form
+              name="newsletter"
+              method="POST"
+              data-netlify="true"
+              netlify-honeypot="bot-field"
+              action="/success"
+              className="space-y-4 text-right"
+            >
+              <input type="hidden" name="form-name" value="newsletter" />
+              <p className="hidden">
+                <label>Don't fill this out: <input name="bot-field" /></label>
+              </p>
               <div>
-                <input 
-                  type="email" 
-                  placeholder="E-Mail" 
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="E-Mail"
                   className="w-full px-4 md:px-6 py-2 bg-white rounded-lg focus:outline-none focus:ring-2 text-black focus:ring-[#FFFB00] text-[18px] md:text-[26px] xl:text-[32px]"
                   required
                 />
               </div>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="bg-[#FFFB00] w-full md:w-auto text-black px-4 md:px-6 py-2 rounded-lg text-[18px] md:text-[26px] xl:text-[32px]"
               >
                 Subscribe to news
