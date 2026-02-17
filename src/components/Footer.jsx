@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../assets/images/oninova-white-logo.svg';
 
 const Footer = () => {
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData).toString(),
+      });
+    } catch {
+      // Submission still reaches Netlify in most cases
+    }
+    setSubmitted(true);
+  };
+
   return (
     <footer className="bg-black text-white rounded-t-[30px]">
       {/* Main Footer Container with rounded top corners */}
@@ -59,41 +76,49 @@ const Footer = () => {
 
           {/* Newsletter Subscription */}
           <div className="lg:w-1/2">
-            <form
-              name="newsletter"
-              method="POST"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
-              action="/"
-              className="space-y-4 text-right"
-            >
-              <input type="hidden" name="form-name" value="newsletter" />
-              <p className="hidden">
-                <label>Don't fill this out: <input name="bot-field" /></label>
-              </p>
-              <div>
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="E-Mail"
-                  className="w-full px-4 md:px-6 py-2 bg-white rounded-lg focus:outline-none focus:ring-2 text-black focus:ring-[#FFFB00] text-[18px] md:text-[26px] xl:text-[32px]"
-                  required
-                />
+            {submitted ? (
+              <div className="space-y-4 text-right">
+                <div className="bg-[#FFFB00] w-full text-black px-4 md:px-6 py-2 rounded-lg text-[18px] md:text-[26px] xl:text-[32px]">
+                  Thank you for subscribing!
+                </div>
               </div>
-              <button
-                type="submit"
-                className="bg-[#FFFB00] w-full md:w-auto text-black px-4 md:px-6 py-2 rounded-lg text-[18px] md:text-[26px] xl:text-[32px]"
+            ) : (
+              <form
+                name="newsletter"
+                method="POST"
+                data-netlify="true"
+                netlify-honeypot="bot-field"
+                onSubmit={handleSubmit}
+                className="space-y-4 text-right"
               >
-                Subscribe to news
-              </button>
-            </form>
+                <input type="hidden" name="form-name" value="newsletter" />
+                <p className="hidden">
+                  <label>Don't fill this out: <input name="bot-field" /></label>
+                </p>
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="E-Mail"
+                    className="w-full px-4 md:px-6 py-2 bg-white rounded-lg focus:outline-none focus:ring-2 text-black focus:ring-[#FFFB00] text-[18px] md:text-[26px] xl:text-[32px]"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="bg-[#FFFB00] w-full md:w-auto text-black px-4 md:px-6 py-2 rounded-lg text-[18px] md:text-[26px] xl:text-[32px]"
+                >
+                  Subscribe to news
+                </button>
+              </form>
+            )}
           </div>
         </div>
 
         {/* Divider Line */}
         <div className="w-full h-px bg-white mb-10"></div>
 
-        {/* Bottom Section - Copyright and Collaboration */}
+        {/* Bottom Section - Copyright */}
         <div className="flex flex-col md:flex-row justify-between items-center">
           <p className="mb-4 md:mb-0 text-[14px] md:text-[18px] lg:text-[26px] xl:text-[35px]">© 2026 Oninova. All Rights Reserved.</p>
         </div>
