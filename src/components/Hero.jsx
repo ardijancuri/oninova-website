@@ -1,19 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navigation from './Navigation';
 import heroVideo from '../assets/images/oninova-hero.webm';
 import logo from '../assets/images/oninova-logo-yellow.png';
 
 const Hero = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
   return (
     <section className="relative h-[93vh]">
+      {/* Skeleton Background */}
+      <div className={`absolute inset-0 rounded-bl-[30px] rounded-tl-[30px] skeleton transition-opacity duration-700 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`} />
+
       {/* Video Background with max-width container */}
-      <div className="absolute inset-0 overflow-hidden flex justify-center rounded-bl-[30px] rounded-tl-[30px]">
+      <div className={`absolute inset-0 overflow-hidden flex justify-center rounded-bl-[30px] rounded-tl-[30px] transition-opacity duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <div className="w-full h-full">
           <video
             autoPlay
             muted
             playsInline
             className="w-full h-full object-cover"
+            onCanPlay={() => setVideoLoaded(true)}
           >
             <source src={heroVideo} type="video/webm" />
           </video>
@@ -66,4 +72,4 @@ const Hero = () => {
   );
 };
 
-export default Hero; 
+export default Hero;

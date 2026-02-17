@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navigation from './Navigation';
 import servicesVideo from '../assets/images/how-we-work.webm';
 import logo from '../assets/images/oninova-logo-yellow.png';
 
 const ServicesHero = () => {
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
   return (
     <section className="relative h-[93vh]">
+      {/* Skeleton Background */}
+      <div className={`absolute inset-0 rounded-bl-[30px] rounded-tl-[30px] skeleton transition-opacity duration-700 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`} />
+
       {/* Video Background with max-width container */}
-      <div className="absolute inset-0 overflow-hidden flex justify-center rounded-bl-[30px] rounded-tl-[30px]">
+      <div className={`absolute inset-0 overflow-hidden flex justify-center rounded-bl-[30px] rounded-tl-[30px] transition-opacity duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <div className="w-full h-full">
           <video
             autoPlay
@@ -15,6 +20,7 @@ const ServicesHero = () => {
             muted
             playsInline
             className="w-full h-full object-cover"
+            onCanPlay={() => setVideoLoaded(true)}
           >
             <source src={servicesVideo} type="video/webm" />
           </video>
@@ -67,4 +73,4 @@ const ServicesHero = () => {
   );
 };
 
-export default ServicesHero; 
+export default ServicesHero;

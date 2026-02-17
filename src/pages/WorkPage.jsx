@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import WorkHero from '../components/WorkHero';
 import Footer from '../components/Footer';
 import tonusImage from '../assets/images/tonus.avif';
@@ -89,6 +89,63 @@ const projects = [
   }
 ];
 
+const LazyImage = ({ src, alt, className }) => {
+  const [loaded, setLoaded] = useState(false);
+  const [inView, setInView] = useState(false);
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '200px' }
+    );
+
+    if (imgRef.current) {
+      observer.observe(imgRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={imgRef} className="relative">
+      {/* Skeleton placeholder */}
+      {!loaded && (
+        <div className="skeleton w-full rounded-sm" style={{ aspectRatio: '3 / 4' }} />
+      )}
+      {inView && (
+        <img
+          src={src}
+          alt={alt}
+          className={`${className} transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0 absolute inset-0'}`}
+          onLoad={() => setLoaded(true)}
+        />
+      )}
+    </div>
+  );
+};
+
+// Compute mobile order once
+const mobileProjects = (() => {
+  const reorderedProjects = [...projects];
+  const tonusIndex = reorderedProjects.findIndex(p => p.title === "Tonus");
+  const monfrereIndex = reorderedProjects.findIndex(p => p.title === "Monfrere");
+
+  const tonus = reorderedProjects.splice(tonusIndex, 1)[0];
+  const monfrereItem = reorderedProjects.splice(monfrereIndex > tonusIndex ? monfrereIndex - 1 : monfrereIndex, 1)[0];
+
+  const reversed = reorderedProjects.reverse();
+  reversed.splice(2, 0, tonus);
+  reversed.push(monfrereItem);
+
+  return reversed;
+})();
+
 const WorkPage = () => {
   return (
     <div className="min-h-screen bg-white">
@@ -98,82 +155,56 @@ const WorkPage = () => {
         <div className="bg-white rounded-tl-3xl overflow-hidden max-w-[1800px] mx-auto">
           {/* Hero Section with Navigation */}
           <WorkHero />
-          
-                     {/* Projects Grid */}
-           <div className="max-w-[1800px] w-full">
-             {/* Mobile Grid - Single Column with Custom Order */}
-             <div className="md:hidden space-y-12 pb-32">
-               {(() => {
-                 // Custom order: Move Tonus higher, keep Monfrere last
-                 const reorderedProjects = [...projects];
-                 const tonusIndex = reorderedProjects.findIndex(p => p.title === "Tonus");
-                 const monfrereIndex = reorderedProjects.findIndex(p => p.title === "Monfrere");
-                 
-                 // Remove Tonus and Monfrere from their current positions
-                 const tonus = reorderedProjects.splice(tonusIndex, 1)[0];
-                 const monfrere = reorderedProjects.splice(monfrereIndex > tonusIndex ? monfrereIndex - 1 : monfrereIndex, 1)[0];
-                 
-                 // Reverse the remaining projects, put Tonus in 3rd position, Monfrere last
-                 const reversed = reorderedProjects.reverse();
-                 reversed.splice(2, 0, tonus); // Insert Tonus at index 2 (3rd position)
-                 reversed.push(monfrere); // Put Monfrere last
-                 
-                 return reversed;
-               })().map((project, index) => (
-                 <div key={index}>
-                   {/* Project Image */}
-                   <div className="relative">
-                     <img 
-                       src={project.image} 
-                       alt={project.title} 
-                       className="w-full h-auto"
-                     />
-                   </div>
 
-                   {/* Project Info */}
-                   <div className="mt-6">
-                     <h3 className="text-[24px] font-medium mb-1">
-                       {project.title}
-                     </h3>
-                     <p className="text-gray-600 text-[16px]">
-                       {project.description}
-                     </p>
-                   </div>
-                 </div>
-               ))}
-             </div>
+          {/* Projects Grid */}
+          <div className="max-w-[1800px] w-full">
+            {/* Mobile Grid - Single Column with Custom Order */}
+            <div className="md:hidden space-y-12 pb-32">
+              {mobileProjects.map((project, index) => (
+                <div key={index}>
+                  <LazyImage
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-auto"
+                  />
+                  <div className="mt-6">
+                    <h3 className="text-[24px] font-medium mb-1">
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-600 text-[16px]">
+                      {project.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-             {/* Tablet and Desktop Grid - Normal Order */}
-             <div className="hidden md:block">
-               <div className="columns-2 lg:columns-4 gap-4 pb-32">
-                 {projects.map((project, index) => (
-                   <div 
-                     key={index} 
-                     className="break-inside-avoid mb-8"
-                   >
-                     {/* Project Image */}
-                     <div className="relative">
-                       <img 
-                         src={project.image} 
-                         alt={project.title} 
-                         className="w-full h-auto"
-                       />
-                     </div>
-
-                     {/* Project Info */}
-                     <div className="mt-4">
-                       <h3 className="text-[24px] font-medium leading-[1.2]">
-                         {project.title}
-                       </h3>
-                       <p className="text-gray-600 text-[16px]">
-                         {project.description}
-                       </p>
-                     </div>
-                   </div>
-                 ))}
-               </div>
-             </div>
-           </div>
+            {/* Tablet and Desktop Grid - Normal Order */}
+            <div className="hidden md:block">
+              <div className="columns-2 lg:columns-4 gap-4 pb-32">
+                {projects.map((project, index) => (
+                  <div
+                    key={index}
+                    className="break-inside-avoid mb-8"
+                  >
+                    <LazyImage
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-auto"
+                    />
+                    <div className="mt-4">
+                      <h3 className="text-[24px] font-medium leading-[1.2]">
+                        {project.title}
+                      </h3>
+                      <p className="text-gray-600 text-[16px]">
+                        {project.description}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
 
           {/* Footer */}
           <Footer />
