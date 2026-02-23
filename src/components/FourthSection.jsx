@@ -109,7 +109,7 @@ const FourthSection = () => {
                 <img
                   src={logoMap[logo]}
                   alt={logo}
-                  className="h-auto max-h-[40px] md:max-h-none opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer"
+                  className="h-auto max-h-[25px] md:max-h-none opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer"
                 />
               </div>
             ))}
