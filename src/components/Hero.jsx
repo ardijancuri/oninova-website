@@ -7,7 +7,7 @@ const Hero = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   return (
-    <section className="relative h-[93vh]">
+    <section className="relative h-screen lg:h-[93vh]">
       {/* Skeleton Background */}
       <div className={`absolute inset-0 rounded-bl-[30px] rounded-tl-[30px] skeleton transition-opacity duration-700 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`} />
 
@@ -35,7 +35,7 @@ const Hero = () => {
       </div>
 
       {/* Content with horizontal spacing */}
-      <div className="relative z-10 flex flex-col justify-between h-[93vh] px-8 py-6">
+      <div className="relative z-10 flex flex-col justify-between h-screen lg:h-[93vh] px-8 py-6">
         {/* Spacer for navigation */}
         <div className="h-20"></div>
 

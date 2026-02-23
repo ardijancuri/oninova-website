@@ -6,6 +6,11 @@ const Navigation = ({ textColor = 'white' }) => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  React.useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileMenuOpen]);
+
   return (
     <nav className="absolute top-0 left-0 right-0 z-50">
       <div className="w-full flex items-center justify-between">
