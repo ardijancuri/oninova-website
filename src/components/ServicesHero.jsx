@@ -7,19 +7,19 @@ const ServicesHero = () => {
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   return (
-    <section className="relative h-[93vh]">
+    <section className="relative h-[calc(100svh-4rem)] md:h-[93vh]">
       {/* Skeleton Background */}
-      <div className={`absolute inset-0 rounded-bl-[30px] rounded-tl-[30px] skeleton transition-opacity duration-700 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`} />
+      <div className={`absolute inset-0 md:rounded-bl-[30px] md:rounded-tl-[30px] skeleton transition-opacity duration-700 ${videoLoaded ? 'opacity-0' : 'opacity-100'}`} />
 
       {/* Video Background with max-width container */}
-      <div className={`absolute inset-0 overflow-hidden flex justify-center rounded-bl-[30px] rounded-tl-[30px] transition-opacity duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`absolute inset-0 overflow-hidden flex justify-center md:rounded-bl-[30px] md:rounded-tl-[30px] transition-opacity duration-700 ${videoLoaded ? 'opacity-100' : 'opacity-0'}`}>
         <div className="w-full h-full">
           <video
             autoPlay
             loop
             muted
             playsInline
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-bottom md:object-center"
             onCanPlay={() => setVideoLoaded(true)}
           >
             <source src={servicesVideo} type="video/webm" />
@@ -32,11 +32,11 @@ const ServicesHero = () => {
 
       {/* Logo on top for tablet or smaller screens*/}
       <div className="absolute top-20 left-0 w-full flex justify-center lg:hidden">
-        <img src={logo} alt="Oninova" className="" />
+        <img src={logo} alt="Oninova" className="scale-75 sm:scale-100" />
       </div>
 
       {/* Content with horizontal spacing */}
-      <div className="relative z-10 flex flex-col justify-between h-[93vh] px-8 py-6">
+      <div className="relative z-10 flex flex-col justify-between h-[calc(100svh-4rem)] md:h-[93vh] px-8 py-6">
         {/* Spacer for navigation */}
         <div className="h-20"></div>
 

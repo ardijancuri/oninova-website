@@ -18,7 +18,7 @@ const ServicesPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Horizontal white space around the container */}
-      <div className="px-4 md:px-8 pt-8">
+      <div className="px-4 md:px-8 pt-8 pb-8">
         {/* White background with rounded corners container - 1800px max width */}
         <div className="bg-white rounded-tl-3xl overflow-hidden max-w-[1800px] mx-auto">
           {/* Hero Section with Navigation on top */}
