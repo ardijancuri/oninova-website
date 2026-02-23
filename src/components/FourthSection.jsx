@@ -81,7 +81,7 @@ const FourthSection = () => {
               {/* Title Column */}
               <div className="flex-shrink-0">
                 <div className="md:w-[160px] lg:w-[228px] flex items-start md:justify-end">
-                  <img src={oninovaIcon} alt="Oninova Icon" />
+                  <img src={oninovaIcon} alt="Oninova Icon" className="w-[50px] md:w-auto" />
                 </div>
               </div>
 
