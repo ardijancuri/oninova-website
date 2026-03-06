@@ -84,7 +84,7 @@ const SecondSection = () => {
           {/* Left Content - Icon */}
           <div className="flex-shrink-0">
             <div className="flex items-center justify-center">
-              <img src={oninovaIcon} alt="Oninova Icon" className="w-full h-full" />
+              <img src={oninovaIcon} alt="Oninova Icon" className="w-[50px] md:w-full h-auto" />
             </div>
           </div>
 

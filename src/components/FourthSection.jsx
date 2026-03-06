@@ -81,7 +81,7 @@ const FourthSection = () => {
               {/* Title Column */}
               <div className="flex-shrink-0">
                 <div className="md:w-[160px] lg:w-[228px] flex items-start md:justify-end">
-                  <img src={oninovaIcon} alt="Oninova Icon" />
+                  <img src={oninovaIcon} alt="Oninova Icon" className="w-[50px] md:w-auto" />
                 </div>
               </div>
 
@@ -109,7 +109,7 @@ const FourthSection = () => {
                 <img
                   src={logoMap[logo]}
                   alt={logo}
-                  className="h-auto opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer"
+                  className="h-auto max-h-[25px] md:max-h-none opacity-80 hover:opacity-100 transition-opacity grayscale hover:grayscale-0 cursor-pointer"
                 />
               </div>
             ))}
