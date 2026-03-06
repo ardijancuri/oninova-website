@@ -1,10 +1,25 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../assets/images/oninova-logo.png';
 
-const Navigation = ({ textColor = 'white' }) => {
-  const location = useLocation();
+const Navigation = ({ textColor = 'white', inFlow = false }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const navClass = inFlow ? 'relative' : 'absolute top-0';
+  const desktopShellClass = inFlow ? 'h-[72px]' : 'h-[80px]';
+  const mobileShellClass = inFlow ? 'h-[56px] lg:h-[72px]' : 'h-[60px] lg:h-[80px]';
+  const desktopLogoClass = 'w-[200px]';
+  const desktopTextClass = 'text-2xl';
+  const logoShellAlignClass = inFlow ? 'items-center' : 'items-start';
+  const actionShellAlignClass = inFlow ? 'items-center' : 'items-start';
+  const mobileShellAlignClass = inFlow ? 'items-center' : 'items-start';
+  const desktopLogoImageClass = inFlow ? 'block self-center' : '';
+  const desktopLinksClass = inFlow ? 'h-[72px] items-center' : 'items-center';
+  const desktopLinkClass = inFlow ? 'flex items-center leading-none' : '';
+  const desktopButtonClass = inFlow ? 'self-center' : '';
+  const mobileButtonClassName = inFlow ? 'self-center' : '';
+  const buttonClass = 'bg-[#231F20] text-white px-[24px] py-[12px] rounded-[14px] leading-[1] border border-white uppercase font-semibold hover:bg-gray-900 transition-colors flex items-center space-x-2 text-[24px] ml-[40px]';
+  const mobileButtonClass = 'bg-[#231F20] ml-[10px] lg:ml-[40px] z-50 text-white px-[24px] py-[12px] rounded-full leading-[1] border border-white uppercase font-semibold hover:bg-gray-900 transition-colors flex items-center space-x-2 text-[24px] ';
 
   React.useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
@@ -12,13 +27,13 @@ const Navigation = ({ textColor = 'white' }) => {
   }, [mobileMenuOpen]);
 
   return (
-    <nav className="absolute top-0 left-0 right-0 z-50">
+    <nav className={`${navClass} left-0 right-0 z-50`}>
       <div className="w-full flex items-center justify-between">
         {/* Logo with white background and inverted border radius on top-right - Hidden on mobile/tablet */}
         <div className="hidden lg:flex items-center relative">
           <Link to="/">
-            <div className="bg-white h-[80px] flex items-start justify-left rounded-br-[30px]">
-              <img src={logo} alt="Oninova" className="w-[200px] mr-[40px]" />
+            <div className={`bg-white ${desktopShellClass} flex ${logoShellAlignClass} justify-left rounded-br-[30px]`}>
+              <img src={logo} alt="Oninova" className={`${desktopLogoClass} ${desktopLogoImageClass} mr-[32px]`} />
             </div>
           </Link>
           {/* Inverted border radius on top-right - outside container */}
@@ -27,16 +42,16 @@ const Navigation = ({ textColor = 'white' }) => {
         </div>
 
         {/* Navigation Links - Hidden on mobile/tablet */}
-        <div className="hidden lg:flex items-center space-x-24">
+        <div className={`hidden lg:flex space-x-24 ${desktopLinksClass}`}>
           <Link 
             to="/services" 
-            className={`uppercase tracking-wider font-medium text-2xl text-${textColor}`}
+            className={`${desktopLinkClass} uppercase tracking-wider font-medium ${desktopTextClass} text-${textColor}`}
           >
             Services
           </Link>
           <Link 
             to="/work" 
-            className={`uppercase tracking-wider font-medium text-2xl text-${textColor}`}
+            className={`${desktopLinkClass} uppercase tracking-wider font-medium ${desktopTextClass} text-${textColor}`}
           >
             Work
           </Link>
@@ -44,10 +59,10 @@ const Navigation = ({ textColor = 'white' }) => {
 
         {/* Contact Button - Hidden on mobile/tablet */}
         <div className="hidden lg:flex items-center relative">
-          <div className="bg-white h-[80px] flex items-start justify-center rounded-bl-[30px] ">
+          <div className={`bg-white ${desktopShellClass} flex ${actionShellAlignClass} justify-center rounded-bl-[30px]`}>
             <a 
               href="mailto:contact@oninova.net"
-              className="bg-[#231F20] text-white px-[24px] py-[12px] rounded-[14px] leading-[1] border border-white uppercase font-semibold hover:bg-gray-900 transition-colors flex items-center space-x-2 text-[24px] ml-[40px]"
+              className={`${buttonClass} ${desktopButtonClass}`}
             >
               <span>Contact Us</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -62,10 +77,10 @@ const Navigation = ({ textColor = 'white' }) => {
 
         {/* Mobile Menu Button - Visible only on mobile/tablet, positioned on the right */}
         <div className="lg:hidden flex items-center relative ml-auto">
-          <div className="bg-white h-[60px] lg:h-[80px] flex items-start justify-center rounded-bl-[30px]">
+          <div className={`bg-white ${mobileShellClass} flex ${mobileShellAlignClass} justify-center rounded-bl-[30px]`}>
             <button 
               onClick={() => setMobileMenuOpen(true)}
-              className="bg-[#231F20] ml-[10px] lg:ml-[40px] z-50 text-white px-[24px] py-[12px] rounded-full leading-[1] border border-white uppercase font-semibold hover:bg-gray-900 transition-colors flex items-center space-x-2 text-[24px] "
+              className={`${mobileButtonClass} ${mobileButtonClassName}`}
             >
               <span>MENU</span>
             </button>
