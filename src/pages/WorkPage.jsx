@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import WorkHero from '../components/WorkHero';
 import Footer from '../components/Footer';
@@ -100,47 +100,14 @@ const projects = [
 
 const projectImageRadiusClass = 'rounded-lg';
 
-const LazyImage = ({ src, alt, className, containerClassName = '' }) => {
-  const [loaded, setLoaded] = useState(false);
-  const [inView, setInView] = useState(false);
-  const imgRef = useRef(null);
-  const hasFixedFrame = containerClassName.length > 0;
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: '200px' }
-    );
-
-    if (imgRef.current) {
-      observer.observe(imgRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
+const ProjectImage = ({ src, alt, className, containerClassName = '' }) => {
   return (
-    <div ref={imgRef} className={`relative ${containerClassName}`}>
-      {/* Skeleton placeholder */}
-      {!loaded && (
-        <div
-          className={`skeleton w-full ${projectImageRadiusClass} ${hasFixedFrame ? 'h-full' : ''}`}
-          style={hasFixedFrame ? undefined : { aspectRatio: '3 / 4' }}
-        />
-      )}
-      {inView && (
-        <img
-          src={src}
-          alt={alt}
-          className={`${className} transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0 absolute inset-0'}`}
-          onLoad={() => setLoaded(true)}
-        />
-      )}
+    <div className={`relative ${containerClassName}`}>
+      <img
+        src={src}
+        alt={alt}
+        className={className}
+      />
       <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
     </div>
   );
@@ -163,7 +130,7 @@ const getProjectImageProps = (project) => {
 const ProjectCard = ({ project, titleSpacingClass, titleClassName }) => {
   const content = (
     <>
-      <LazyImage
+      <ProjectImage
         src={project.image}
         alt={project.title}
         {...getProjectImageProps(project)}
