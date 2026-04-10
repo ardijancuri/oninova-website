@@ -149,7 +149,7 @@ const YouGoSimPage = () => {
                 />
               </div>
 
-              <div className="mt-8 space-y-4 md:mt-10 md:space-y-6">
+              <div className="mt-8 space-y-10 md:mt-10 md:space-y-14">
                 <FramedImage
                   src={firstSection}
                   alt="YouGo card with travel ring and boarding pass"
@@ -160,7 +160,7 @@ const YouGoSimPage = () => {
                 <FramedImage
                   src={secondSection}
                   alt="YouGo travel object brand system"
-                  className="mx-auto mt-8 max-w-[1400px] overflow-hidden md:mt-10"
+                  className="mx-auto max-w-[1400px] overflow-hidden"
                   delay={120}
                   rounded={false}
                 />
