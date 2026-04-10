@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 import heroSection from '../assets/work/yougosim/hero-section.jpg';
@@ -120,6 +120,18 @@ const pageGutterClass = 'px-3 md:px-6 lg:px-8';
 const viewportBleedClass = 'relative left-1/2 w-screen -translate-x-1/2';
 
 const YouGoSimPage = () => {
+  const [pageReady, setPageReady] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
+    const frame = window.requestAnimationFrame(() => {
+      setPageReady(true);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
   return (
     <div className="min-h-screen bg-white">
       <div className="px-4 md:px-8">
@@ -128,7 +140,11 @@ const YouGoSimPage = () => {
             <Navigation textColor="black" inFlow hideBottomCorners />
           </section>
 
-          <main className="pb-16 md:pb-24">
+          <main
+            className={`pb-16 transition-[opacity,transform] duration-500 ease-out md:pb-24 ${
+              pageReady ? 'translate-y-0 opacity-100' : 'translate-y-3 opacity-0'
+            }`}
+          >
             <section className={`${viewportBleedClass} pt-2 md:pt-2`}>
               <Reveal>
                 <img

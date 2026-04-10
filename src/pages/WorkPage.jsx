@@ -169,7 +169,7 @@ const ProjectCard = ({ project, titleSpacingClass, titleClassName }) => {
 
   if (project.link) {
     return (
-      <Link to={project.link} className="group block" aria-label={project.title}>
+      <Link to={project.link} viewTransition className="group block" aria-label={project.title}>
         {content}
       </Link>
     );
