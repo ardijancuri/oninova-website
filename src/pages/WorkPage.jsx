@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import WorkHero from '../components/WorkHero';
 import Footer from '../components/Footer';
 import tonusImage from '../assets/images/tonus.avif';
@@ -22,7 +23,8 @@ const projects = [
     title: "YouGo eSIM",
     description: "eSIM Marketplace Web app",
     image: yougosimWork,
-    fixedFrame: true
+    fixedFrame: true,
+    link: "/work/yougosim"
   },
   {
     title: "Tonus",
@@ -96,6 +98,8 @@ const projects = [
   }
 ];
 
+const projectImageRadiusClass = 'rounded-lg';
+
 const LazyImage = ({ src, alt, className, containerClassName = '' }) => {
   const [loaded, setLoaded] = useState(false);
   const [inView, setInView] = useState(false);
@@ -125,7 +129,7 @@ const LazyImage = ({ src, alt, className, containerClassName = '' }) => {
       {/* Skeleton placeholder */}
       {!loaded && (
         <div
-          className={`skeleton w-full rounded-sm ${hasFixedFrame ? 'h-full' : ''}`}
+          className={`skeleton w-full ${projectImageRadiusClass} ${hasFixedFrame ? 'h-full' : ''}`}
           style={hasFixedFrame ? undefined : { aspectRatio: '3 / 4' }}
         />
       )}
@@ -137,6 +141,7 @@ const LazyImage = ({ src, alt, className, containerClassName = '' }) => {
           onLoad={() => setLoaded(true)}
         />
       )}
+      <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
     </div>
   );
 };
@@ -145,14 +150,44 @@ const getProjectImageProps = (project) => {
   if (project.fixedFrame) {
     return {
       className: 'h-full w-full object-cover',
-      containerClassName: 'aspect-[3/4] overflow-hidden rounded-lg',
+      containerClassName: `aspect-[3/4] overflow-hidden ${projectImageRadiusClass}`,
     };
   }
 
   return {
     className: 'w-full h-auto',
-    containerClassName: 'overflow-hidden rounded-lg',
+    containerClassName: `overflow-hidden ${projectImageRadiusClass}`,
   };
+};
+
+const ProjectCard = ({ project, titleSpacingClass, titleClassName }) => {
+  const content = (
+    <>
+      <LazyImage
+        src={project.image}
+        alt={project.title}
+        {...getProjectImageProps(project)}
+      />
+      <div className={titleSpacingClass}>
+        <h3 className={titleClassName}>
+          {project.title}
+        </h3>
+        <p className="text-gray-600 text-[16px]">
+          {project.description}
+        </p>
+      </div>
+    </>
+  );
+
+  if (project.link) {
+    return (
+      <Link to={project.link} className="group block" aria-label={project.title}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className="group">{content}</div>;
 };
 
 // Compute mobile order once
@@ -197,19 +232,11 @@ const WorkPage = () => {
             <div className="md:hidden space-y-12 pb-32">
               {mobileProjects.map((project, index) => (
                 <div key={index}>
-                  <LazyImage
-                    src={project.image}
-                    alt={project.title}
-                    {...getProjectImageProps(project)}
+                  <ProjectCard
+                    project={project}
+                    titleSpacingClass="mt-6"
+                    titleClassName="text-[24px] font-medium mb-1"
                   />
-                  <div className="mt-6">
-                    <h3 className="text-[24px] font-medium mb-1">
-                      {project.title}
-                    </h3>
-                    <p className="text-gray-600 text-[16px]">
-                      {project.description}
-                    </p>
-                  </div>
                 </div>
               ))}
             </div>
@@ -222,19 +249,11 @@ const WorkPage = () => {
                     key={index}
                     className="break-inside-avoid mb-8"
                   >
-                    <LazyImage
-                      src={project.image}
-                      alt={project.title}
-                      {...getProjectImageProps(project)}
+                    <ProjectCard
+                      project={project}
+                      titleSpacingClass="mt-4"
+                      titleClassName="text-[24px] font-medium leading-[1.2]"
                     />
-                    <div className="mt-4">
-                      <h3 className="text-[24px] font-medium leading-[1.2]">
-                        {project.title}
-                      </h3>
-                      <p className="text-gray-600 text-[16px]">
-                        {project.description}
-                      </p>
-                    </div>
                   </div>
                 ))}
               </div>

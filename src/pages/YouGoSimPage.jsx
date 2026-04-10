@@ -129,7 +129,7 @@ const YouGoSimPage = () => {
           </section>
 
           <main className="pb-16 md:pb-24">
-            <section className={`${viewportBleedClass} pt-1 md:pt-2`}>
+            <section className={`${viewportBleedClass} pt-2 md:pt-2`}>
               <Reveal>
                 <img
                   src={heroSection}
