@@ -15,8 +15,15 @@ import ocean from '../assets/images/ocean.avif';
 import cioccolatitaliani from '../assets/images/cioccolatitaliani.avif';
 import tesorouno from '../assets/images/tesorouno.avif';
 import lesnamax from '../assets/images/lesnamax.avif';
+import yougosimWork from '../assets/images/yougosim-work.jpg';
 
 const projects = [
+  {
+    title: "YouGo eSIM",
+    description: "eSIM Marketplace Web app",
+    image: yougosimWork,
+    fixedFrame: true
+  },
   {
     title: "Tonus",
     description: "3d interactive website",
@@ -89,10 +96,11 @@ const projects = [
   }
 ];
 
-const LazyImage = ({ src, alt, className }) => {
+const LazyImage = ({ src, alt, className, containerClassName = '' }) => {
   const [loaded, setLoaded] = useState(false);
   const [inView, setInView] = useState(false);
   const imgRef = useRef(null);
+  const hasFixedFrame = containerClassName.length > 0;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -113,10 +121,13 @@ const LazyImage = ({ src, alt, className }) => {
   }, []);
 
   return (
-    <div ref={imgRef} className="relative">
+    <div ref={imgRef} className={`relative ${containerClassName}`}>
       {/* Skeleton placeholder */}
       {!loaded && (
-        <div className="skeleton w-full rounded-sm" style={{ aspectRatio: '3 / 4' }} />
+        <div
+          className={`skeleton w-full rounded-sm ${hasFixedFrame ? 'h-full' : ''}`}
+          style={hasFixedFrame ? undefined : { aspectRatio: '3 / 4' }}
+        />
       )}
       {inView && (
         <img
@@ -130,20 +141,44 @@ const LazyImage = ({ src, alt, className }) => {
   );
 };
 
+const getProjectImageProps = (project) => {
+  if (project.fixedFrame) {
+    return {
+      className: 'h-full w-full object-cover',
+      containerClassName: 'aspect-[3/4] overflow-hidden rounded-lg',
+    };
+  }
+
+  return {
+    className: 'w-full h-auto',
+    containerClassName: 'overflow-hidden rounded-lg',
+  };
+};
+
 // Compute mobile order once
 const mobileProjects = (() => {
-  const reorderedProjects = [...projects];
-  const tonusIndex = reorderedProjects.findIndex(p => p.title === "Tonus");
-  const monfrereIndex = reorderedProjects.findIndex(p => p.title === "Monfrere");
+  const ordered = [...projects].reverse();
+  const moveProject = (title, targetIndex) => {
+    const projectIndex = ordered.findIndex((project) => project.title === title);
+    if (projectIndex === -1) return;
 
-  const tonus = reorderedProjects.splice(tonusIndex, 1)[0];
-  const monfrereItem = reorderedProjects.splice(monfrereIndex > tonusIndex ? monfrereIndex - 1 : monfrereIndex, 1)[0];
+    const [project] = ordered.splice(projectIndex, 1);
+    ordered.splice(Math.min(targetIndex, ordered.length), 0, project);
+  };
 
-  const reversed = reorderedProjects.reverse();
-  reversed.splice(2, 0, tonus);
-  reversed.push(monfrereItem);
+  const moveProjectToEnd = (title) => {
+    const projectIndex = ordered.findIndex((project) => project.title === title);
+    if (projectIndex === -1) return;
 
-  return reversed;
+    const [project] = ordered.splice(projectIndex, 1);
+    ordered.push(project);
+  };
+
+  moveProject("YouGo eSIM", 0);
+  moveProject("Tonus", 2);
+  moveProjectToEnd("Monfrere");
+
+  return ordered;
 })();
 
 const WorkPage = () => {
@@ -165,7 +200,7 @@ const WorkPage = () => {
                   <LazyImage
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-auto"
+                    {...getProjectImageProps(project)}
                   />
                   <div className="mt-6">
                     <h3 className="text-[24px] font-medium mb-1">
@@ -190,7 +225,7 @@ const WorkPage = () => {
                     <LazyImage
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-auto"
+                      {...getProjectImageProps(project)}
                     />
                     <div className="mt-4">
                       <h3 className="text-[24px] font-medium leading-[1.2]">

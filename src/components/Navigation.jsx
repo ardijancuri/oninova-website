@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/images/oninova-logo.png';
 
-const Navigation = ({ textColor = 'white', inFlow = false }) => {
+const Navigation = ({ textColor = 'white', inFlow = false, hideBottomCorners = false }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navClass = inFlow ? 'relative' : 'absolute top-0';
@@ -38,7 +38,9 @@ const Navigation = ({ textColor = 'white', inFlow = false }) => {
           </Link>
           {/* Inverted border radius on top-right - outside container */}
           <div className="absolute top-0 -right-8 w-8 h-8 rounded-tl-[30px] shadow-[-10px_-5px_0px_5px_#FFFFFF]"></div>
-          <div className="absolute -bottom-8 left-0 w-8 h-8 rounded-tl-[30px] shadow-[-10px_-5px_0px_5px_#ffffff]"></div>
+          {!hideBottomCorners && (
+            <div className="absolute -bottom-8 left-0 w-8 h-8 rounded-tl-[30px] shadow-[-10px_-5px_0px_5px_#ffffff]"></div>
+          )}
         </div>
 
         {/* Navigation Links - Hidden on mobile/tablet */}
@@ -72,7 +74,9 @@ const Navigation = ({ textColor = 'white', inFlow = false }) => {
           </div>
           {/* Inverted border radius on top-left - outside container */}
           <div className="absolute top-0 -left-8 w-8 h-8 rounded-tr-[30px] shadow-[10px_-5px_0px_5px_#ffffff]"></div>
-          <div className="absolute -bottom-8 right-0 w-8 h-8 rounded-tr-[30px] shadow-[10px_-5px_0px_5px_#ffffff]"></div>
+          {!hideBottomCorners && (
+            <div className="absolute -bottom-8 right-0 w-8 h-8 rounded-tr-[30px] shadow-[10px_-5px_0px_5px_#ffffff]"></div>
+          )}
         </div>
 
         {/* Mobile Menu Button - Visible only on mobile/tablet, positioned on the right */}
@@ -87,7 +91,9 @@ const Navigation = ({ textColor = 'white', inFlow = false }) => {
           </div>
           {/* Inverted border radius on top-left - outside container */}
           <div className="absolute top-0 -left-8 w-8 h-8 rounded-tr-[30px] shadow-[5px_-5px_0px_5px_#ffffff]"></div>
-          <div className="absolute -bottom-8 right-0 w-8 h-8 rounded-tr-[30px] shadow-[10px_-5px_0px_5px_#ffffff]"></div>
+          {!hideBottomCorners && (
+            <div className="absolute -bottom-8 right-0 w-8 h-8 rounded-tr-[30px] shadow-[10px_-5px_0px_5px_#ffffff]"></div>
+          )}
         </div>
       </div>
 

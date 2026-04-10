@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -65,4 +67,12 @@ body {
   background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.yougo-case-title {
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 23px;
+  line-height: 1;
+  letter-spacing: 0;
 }
