@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import WorkHero from '../components/WorkHero';
 import Footer from '../components/Footer';
@@ -100,13 +100,18 @@ const projects = [
 
 const projectImageRadiusClass = 'rounded-lg';
 
-const ProjectImage = ({ src, alt, className, containerClassName = '' }) => {
+const ProjectImage = ({ src, alt, className, containerClassName = '', loaded, onLoad, reserveAspectRatio }) => {
   return (
-    <div className={`relative ${containerClassName}`}>
+    <div
+      className={`relative ${containerClassName}`}
+      style={!loaded && reserveAspectRatio ? { aspectRatio: reserveAspectRatio } : undefined}
+    >
+      {!loaded && <div className={`skeleton absolute inset-0 ${projectImageRadiusClass}`} />}
       <img
         src={src}
         alt={alt}
-        className={className}
+        className={`${className} transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        onLoad={onLoad}
       />
       <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
     </div>
@@ -128,20 +133,36 @@ const getProjectImageProps = (project) => {
 };
 
 const ProjectCard = ({ project, titleSpacingClass, titleClassName }) => {
+  const [loaded, setLoaded] = useState(false);
+  const imageProps = getProjectImageProps(project);
+  const reserveAspectRatio = project.fixedFrame ? undefined : '3 / 4';
+
   const content = (
     <>
       <ProjectImage
         src={project.image}
         alt={project.title}
-        {...getProjectImageProps(project)}
+        {...imageProps}
+        loaded={loaded}
+        onLoad={() => setLoaded(true)}
+        reserveAspectRatio={reserveAspectRatio}
       />
       <div className={titleSpacingClass}>
-        <h3 className={titleClassName}>
-          {project.title}
-        </h3>
-        <p className="text-gray-600 text-[16px]">
-          {project.description}
-        </p>
+        {loaded ? (
+          <>
+            <h3 className={titleClassName}>
+              {project.title}
+            </h3>
+            <p className="text-gray-600 text-[16px]">
+              {project.description}
+            </p>
+          </>
+        ) : (
+          <div className="space-y-2">
+            <div className="skeleton h-7 w-[58%] rounded-md" />
+            <div className="skeleton h-5 w-[72%] rounded-md" />
+          </div>
+        )}
       </div>
     </>
   );
