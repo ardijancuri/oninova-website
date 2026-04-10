@@ -202,7 +202,7 @@ const YouGoSimPage = () => {
               </div>
             </section>
 
-            <section className="mt-12 md:mt-16 lg:mt-20">
+            <section className="mt-12 md:mt-12">
               <div className="mx-auto max-w-[1100px] px-3 md:px-0">
                 <CaseTextBlock
                   title="Goals - Not only resonate but endure"
