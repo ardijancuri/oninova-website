@@ -141,7 +141,7 @@ const YouGoSimPage = () => {
         className={viewportBleedClass}
       />
 
-      <div className="px-4 pb-8 md:px-8">
+      <div className="px-4 md:px-8">
         <div className="mx-auto max-w-[1800px] overflow-hidden bg-white">
           <Footer />
         </div>
