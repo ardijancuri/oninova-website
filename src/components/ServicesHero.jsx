@@ -55,9 +55,9 @@ const ServicesHero = () => {
           {/* Main Heading - Left-aligned for all screen sizes */}
           <div className="text-left max-w-4xl mb-4 lg:mb-0">
             <h1 className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[86px] font-bold text-white leading-[0.85em]">
-              Our services <br />
-              transform your <br />
-              digital presence!
+              Services for <br />
+              modern digital <br />
+              operations.
             </h1>
           </div>
 

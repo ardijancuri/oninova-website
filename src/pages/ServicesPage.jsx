@@ -30,10 +30,10 @@ const ServicesPage = () => {
               {/* Concept Title and Description - Left Aligned */}
               <div className="mb-10 md:mb-20">
                 <h2 className="text-[36px] md:text-[65px] leading-[1.2] lg:text-[87px] font-bold text-black text-left mb-4">
-                  Concept
+                  Product Strategy
                 </h2>
                 <p className="text-[20px] md:text-[26px] lg:text-[38px] text-gray-800 font-thin leading-[1.2] max-w-[600px]">
-                  We'll develop a creative concept and sketch a UI for your website
+                  We define the product direction, user flows, and digital structure before design and development begin.
                 </p>
               </div>
 
@@ -52,10 +52,10 @@ const ServicesPage = () => {
                 {/* Left Column - Title, Description and 3 Images */}
                 <div className="lg:w-2/3">
                   <h2 className="text-[36px] md:text-[65px] lg:text-[87px] leading-[1.2] font-bold text-black text-left mb-4">
-                    UI UX
+                    Experience Design
                   </h2>
                   <p className="text-[20px] md:text-[26px] lg:text-[38px] max-w-[800px] text-gray-800 font-thin leading-[1.2] mb-10 md:mb-20">
-                    We'll develop a user friendly interface for a good looking website for your company
+                    We create clear, user-friendly interfaces for websites, platforms, dashboards, and digital tools.
                   </p>
                   <div className="grid grid-cols-3 gap-4">
                     <img src={conceptImage1} alt="Project Flowchart" className="w-full h-auto" />
@@ -81,11 +81,11 @@ const ServicesPage = () => {
 
               {/* Services Grid - 3 columns */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {/* Web Design & Development */}
+                {/* Software & Digital Product Development */}
                 <div className="border border-black rounded-2xl overflow-hidden">
                   <div className="p-8">
-                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Web Design & Development</h3>
-                    <p className="text-gray-600 mb-4 text-[20px]">Modern, responsive, and user-centered websites built for impact.</p>
+                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Software & Digital Product Development</h3>
+                    <p className="text-gray-600 mb-4 text-[20px]">Custom digital products built around business goals, users, and long-term growth.</p>
                   </div>
                   <div className="h-[80px] overflow-hidden">
                     <video 
@@ -111,45 +111,45 @@ const ServicesPage = () => {
                     <ul className="space-y-4">
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Creative Concept & Design
+                        Product Discovery
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        UI Design
+                        Interface Design
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        UX Design & Wireframes
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-yellow-400 mr-2">+</span>
-                        UX Web Design
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-yellow-400 mr-2">+</span>
-                        Responsive Web Design
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-yellow-400 mr-2">+</span>
-                        Design Consultancy
-                      </li>
-                      <li className="flex items-center">
-                        <span className="text-yellow-400 mr-2">+</span>
-                        Custom Web Platforms
+                        User Experience Flows
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
                         Web Applications
                       </li>
+                      <li className="flex items-center">
+                        <span className="text-yellow-400 mr-2">+</span>
+                        Responsive Interfaces
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-yellow-400 mr-2">+</span>
+                        Technical Planning
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-yellow-400 mr-2">+</span>
+                        Custom Platform Development
+                      </li>
+                      <li className="flex items-center">
+                        <span className="text-yellow-400 mr-2">+</span>
+                        Ongoing Product Improvements
+                      </li>
                     </ul>
                   </div>
                 </div>
 
-                {/* Digital Growth & Marketing */}
+                {/* Business Platforms & CRM */}
                 <div className="border border-black rounded-2xl overflow-hidden">
                   <div className="p-8">
-                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Digital Growth & Marketing Strategy</h3>
-                    <p className="text-gray-600 mb-4 text-[20px]">Digital marketing built on data, structure and consistency.</p>
+                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">Business Platforms & CRM</h3>
+                    <p className="text-gray-600 mb-4 text-[20px]">Structured systems that help teams manage customers, operations, and internal processes.</p>
                   </div>
                   <div className="h-[80px] overflow-hidden">
                     <video 
@@ -175,45 +175,45 @@ const ServicesPage = () => {
                     <ul className="space-y-4">
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        PPC Analysis & Optimization
+                        CRM Platform Planning
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Analytics & Tracking
+                        Customer Data Structure
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Audience Research & Targeting
+                        Team Workflow Mapping
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Content Creation
+                        Admin Dashboards
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Personalized Email Marketing
+                        Automation Logic
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Social Media Marketing
+                        Integrations
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        eCommerce Marketing
+                        Reporting Views
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        AI-powered Campaigns
+                        Platform Optimization
                       </li>
                     </ul>
                   </div>
                 </div>
 
-                {/* SEO & Performance */}
+                {/* E-commerce & Digital Operations */}
                 <div className="border border-black rounded-2xl overflow-hidden">
                   <div className="p-8">
-                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">SEO & Performance Optimization</h3>
-                    <p className="text-gray-600 mb-4 text-[20px]">Optimizing your digital presence for long-term visibility and ROI.</p>
+                    <h3 className="font-medium mb-4 text-[20px] md:text-[26px] lg:text-[38px] leading-[1.2]">E-commerce & Digital Operations</h3>
+                    <p className="text-gray-600 mb-4 text-[20px]">Commerce and workflow solutions designed to support sales, service, and daily operations.</p>
                   </div>
                   <div className="h-[80px] overflow-hidden">
                     <video 
@@ -239,31 +239,31 @@ const ServicesPage = () => {
                     <ul className="space-y-4">
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Search Engine Optimization (SEO)
+                        Online Store Development
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        PPC Campaign Management
+                        Product Catalog Structure
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Social Media Performance Audits
+                        Checkout & Order Flows
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Conversion Rate Optimization
+                        Payment Integrations
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Email Funnel Optimization
+                        Inventory & Operations Tools
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        Marketing Automation Tools
+                        Customer Communication Flows
                       </li>
                       <li className="flex items-center">
                         <span className="text-yellow-400 mr-2">+</span>
-                        AI-boosted Digital Strategy
+                        Performance Optimization
                       </li>
                     </ul>
                   </div>

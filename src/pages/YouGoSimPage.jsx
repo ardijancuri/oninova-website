@@ -121,6 +121,7 @@ const viewportBleedClass = 'relative left-1/2 w-screen -translate-x-1/2';
 
 const YouGoSimPage = () => {
   const [pageReady, setPageReady] = useState(false);
+  const [heroLoaded, setHeroLoaded] = useState(false);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
@@ -147,11 +148,24 @@ const YouGoSimPage = () => {
           >
             <section className={`${viewportBleedClass} pt-2 md:pt-2`}>
               <Reveal>
-                <img
-                  src={heroSection}
-                  alt="YouGo eSIM hero composition"
-                  className="w-full h-auto"
-                />
+                <div className="relative aspect-[1919/860] w-full overflow-hidden bg-[#f3f4f6]">
+                  <div
+                    className={`absolute inset-0 skeleton transition-opacity duration-700 ease-out ${
+                      heroLoaded ? 'opacity-0' : 'opacity-100'
+                    }`}
+                  />
+                  <img
+                    src={heroSection}
+                    alt="YouGo eSIM hero composition"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="async"
+                    onLoad={() => setHeroLoaded(true)}
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ease-out ${
+                      heroLoaded ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  />
+                </div>
               </Reveal>
             </section>
 

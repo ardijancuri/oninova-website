@@ -54,9 +54,9 @@ const Hero = () => {
           {/* Main Heading - Left-aligned for all screen sizes */}
           <div className="text-left max-w-4xl mb-4 lg:mb-0">
             <h1 className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[86px] font-bold text-white leading-[0.85em]">
-              Let's craft <br />
-              a website that <br />
-              defines your brand!
+              We build <br />
+              digital products <br />
+              that move work.
             </h1>
           </div>
 

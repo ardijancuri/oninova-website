@@ -8,12 +8,12 @@ const SecondSection = () => {
   const [isInViewport, setIsInViewport] = useState(false);
 
   const areas = [
-    "E-Commerce",
-    "SEO", 
-    "Social Media",
-    "PPC",
-    "AI",
-    "META"
+    "Product Strategy",
+    "Software Development",
+    "Experience Design",
+    "Business Platforms",
+    "Commerce Solutions",
+    "Workflow Automation"
   ];
 
   // Intersection Observer to detect when video enters viewport
@@ -95,14 +95,14 @@ const SecondSection = () => {
               {/* Title Column */}
               <div className="flex-shrink-0">
                 <h2 className="md:w-[160px] lg:w-[228px] text-[16px] md:text-right uppercase font-semibold text-gray-800">
-                  Smart Development
+                  Digital Capabilities
                 </h2>
               </div>
               
               {/* Description Column */}
               <div className="flex-1 lg:max-w-[700px]">
                 <p className="text-[20px] md:text-[26px] lg:text-[35px] text-gray-800 leading-[1.2]">
-                  Combining unique design and rich technology, we build digital products exactly as they were designed, without shortcuts or simplifications.
+                  We help companies plan, design, and build digital systems that improve customer experience, support operations, and make everyday workflows easier to manage.
                 </p>
               </div>
             </div>
@@ -112,7 +112,7 @@ const SecondSection = () => {
               {/* Areas Title Column */}
               <div className="flex-shrink-0">
                 <h3 className="md:w-[160px] lg:w-[228px] text-[16px] md:text-right uppercase font-semibold text-gray-800">
-                  Areas
+                  Areas of Work
                 </h3>
               </div>
               
@@ -122,7 +122,7 @@ const SecondSection = () => {
                   {areas.map((area, index) => (
                     <button
                       key={index}
-                      className="bg-white border border-gray-800 text-gray-800 px-8 py-2 rounded-full text-[20px] lg:text-[28px] font-normal whitespace-nowrap"
+                      className="bg-white border border-gray-800 text-gray-800 px-6 py-2 rounded-full text-[16px] lg:text-[22px] font-normal whitespace-nowrap"
                     >
                       {area}
                     </button>

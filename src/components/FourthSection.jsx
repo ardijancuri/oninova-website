@@ -88,7 +88,7 @@ const FourthSection = () => {
               {/* Description Column */}
               <div className="flex-1 lg:max-w-[700px]">
                 <p className="text-[20px] md:text-[26px] lg:text-[35px] text-gray-800 leading-[1.2] lg:pr-[80px]">
-                  We think and speak full stack development. That’s everything you NEED!
+                  From idea to launch and daily operations, we help businesses turn complex processes into practical digital tools.
                 </p>
               </div>
             </div>
