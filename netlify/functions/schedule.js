@@ -99,6 +99,90 @@ const getAllowedTimes = (durationMinutes) => {
   return times;
 };
 
+const timeToMinutes = (time) => {
+  const [hours, minutes] = time.split(':').map((part) => Number.parseInt(part, 10));
+  return (hours * 60) + minutes;
+};
+
+const getFixedTimezoneNow = () => {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: fixedTimezone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+    hourCycle: 'h23',
+  }).formatToParts(new Date());
+
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+
+  return {
+    date: `${values.year}-${values.month}-${values.day}`,
+    minutes: (Number.parseInt(values.hour, 10) * 60) + Number.parseInt(values.minute, 10),
+  };
+};
+
+const isPastOrCurrentSlot = (date, time) => {
+  const now = getFixedTimezoneNow();
+
+  if (date < now.date) {
+    return true;
+  }
+
+  if (date > now.date) {
+    return false;
+  }
+
+  return timeToMinutes(time) <= now.minutes;
+};
+
+const slotsOverlap = (slotStart, slotDuration, existingStart, existingDuration) => {
+  const slotEnd = slotStart + slotDuration;
+  const existingEnd = existingStart + existingDuration;
+  return slotStart < existingEnd && existingStart < slotEnd;
+};
+
+const getExistingSchedulesForDate = async (date) => {
+  const query = `
+    select preferred_time, coalesce(duration_minutes, 30)::int as duration_minutes
+    from public.scheduling_requests
+    where preferred_date = $1
+      and status in ('new', 'confirmed')
+  `;
+
+  const result = await getPool().query(query, [date]);
+  return result.rows;
+};
+
+const getAvailability = async (date, durationMinutes) => {
+  const allTimes = getAllowedTimes(durationMinutes);
+  const existingSchedules = await getExistingSchedulesForDate(date);
+  const unavailableTimes = allTimes.filter((time) => {
+    const start = timeToMinutes(time);
+
+    if (isPastOrCurrentSlot(date, time)) {
+      return true;
+    }
+
+    return existingSchedules.some((schedule) => slotsOverlap(
+      start,
+      durationMinutes,
+      timeToMinutes(schedule.preferred_time),
+      Number.parseInt(schedule.duration_minutes, 10),
+    ));
+  });
+  const unavailableSet = new Set(unavailableTimes);
+  const availableTimes = allTimes.filter((time) => !unavailableSet.has(time));
+
+  return {
+    allTimes,
+    availableTimes,
+    unavailableTimes,
+  };
+};
+
 const normalizeRequest = (body) => ({
   fullName: cleanString(body.fullName, 120),
   email: cleanString(body.email, 254).toLowerCase(),
@@ -133,7 +217,7 @@ const validateRequest = (request) => {
     errors.preferredSlot = 'Preferred date and time are required.';
   }
 
-  if (request.preferredDate && request.preferredTime && new Date(`${request.preferredDate}T${request.preferredTime}:00`) <= new Date()) {
+  if (request.preferredDate && request.preferredTime && isPastOrCurrentSlot(request.preferredDate, request.preferredTime)) {
     errors.preferredSlot = 'Please choose a future date and time.';
   }
 
@@ -150,6 +234,53 @@ const validateRequest = (request) => {
   }
 
   return errors;
+};
+
+const handleAvailabilityRequest = async (event) => {
+  const date = normalizeDate(event.queryStringParameters?.date);
+  const durationMinutes = normalizeDuration(event.queryStringParameters?.durationMinutes);
+
+  if (!date) {
+    return respond(400, {
+      ok: false,
+      message: 'A valid date is required.',
+    });
+  }
+
+  if (!allowedDurations.includes(durationMinutes)) {
+    return respond(400, {
+      ok: false,
+      message: 'Please choose a call length of 15, 30, or 60 minutes.',
+    });
+  }
+
+  const missingConfig = getMissingConfig();
+
+  if (missingConfig.length > 0) {
+    console.error(`Missing scheduling config: ${missingConfig.join(', ')}`);
+    return respond(500, {
+      ok: false,
+      message: 'Scheduling is not configured yet.',
+    });
+  }
+
+  try {
+    const availability = await getAvailability(date, durationMinutes);
+
+    return respond(200, {
+      ok: true,
+      date,
+      durationMinutes,
+      timezone: fixedTimezone,
+      ...availability,
+    });
+  } catch (error) {
+    console.error(error);
+    return respond(500, {
+      ok: false,
+      message: 'We could not load available times.',
+    });
+  }
 };
 
 const getMissingConfig = () => {
@@ -289,6 +420,10 @@ export const handler = async (event) => {
     return respond(204, {});
   }
 
+  if (event.httpMethod === 'GET') {
+    return handleAvailabilityRequest(event);
+  }
+
   if (event.httpMethod !== 'POST') {
     return respond(405, {
       ok: false,
@@ -336,6 +471,15 @@ export const handler = async (event) => {
   }
 
   try {
+    const availability = await getAvailability(request.preferredDate, request.durationMinutes);
+
+    if (!availability.availableTimes.includes(request.preferredTime)) {
+      return respond(409, {
+        ok: false,
+        message: 'That time is no longer available. Please choose another time.',
+      });
+    }
+
     if (await scheduleConflicts(request)) {
       return respond(409, {
         ok: false,

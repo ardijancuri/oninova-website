@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Navigation from '../components/Navigation';
 import Footer from '../components/Footer';
 
@@ -29,6 +29,18 @@ const scheduleStartHour = 10;
 const scheduleEndHour = 16;
 const fixedTimezone = 'Europe/Skopje';
 const fixedTimezoneLabel = 'Europe / Skopje';
+
+const getFixedTimezoneToday = () => {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: fixedTimezone,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+
+  return `${values.year}-${values.month}-${values.day}`;
+};
 
 const createInitialForm = () => ({
   fullName: '',
@@ -71,17 +83,74 @@ const SchedulePage = () => {
   const [formData, setFormData] = useState(createInitialForm);
   const [status, setStatus] = useState('idle');
   const [feedback, setFeedback] = useState('');
-  const minDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
-  const timeOptions = useMemo(
-    () => getTimeOptions(formData.durationMinutes),
-    [formData.durationMinutes],
-  );
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [availabilityStatus, setAvailabilityStatus] = useState('idle');
+  const [availabilityFeedback, setAvailabilityFeedback] = useState('');
+  const minDate = useMemo(() => getFixedTimezoneToday(), []);
+  const selectedDate = formData.preferredDate;
+  const selectedDuration = formData.durationMinutes;
+
+  useEffect(() => {
+    if (!selectedDate) {
+      setAvailableTimes([]);
+      setAvailabilityStatus('idle');
+      setAvailabilityFeedback('');
+      return undefined;
+    }
+
+    const controller = new AbortController();
+    const params = new URLSearchParams({
+      date: selectedDate,
+      durationMinutes: selectedDuration,
+    });
+
+    setAvailabilityStatus('loading');
+    setAvailabilityFeedback('');
+
+    fetch(`/.netlify/functions/schedule?${params.toString()}`, {
+      signal: controller.signal,
+    })
+      .then(async (response) => {
+        const result = await response.json().catch(() => ({}));
+
+        if (!response.ok || !result.ok) {
+          throw new Error(result.message || 'We could not load available times.');
+        }
+
+        const nextTimes = Array.isArray(result.availableTimes) ? result.availableTimes : [];
+        setAvailableTimes(nextTimes);
+        setAvailabilityStatus('ready');
+        setAvailabilityFeedback(nextTimes.length === 0 ? 'No times are available for this date.' : '');
+        setFormData((current) => (
+          current.preferredTime && !nextTimes.includes(current.preferredTime)
+            ? { ...current, preferredTime: '' }
+            : current
+        ));
+      })
+      .catch((error) => {
+        if (error.name === 'AbortError') {
+          return;
+        }
+
+        setAvailableTimes([]);
+        setAvailabilityStatus('error');
+        setAvailabilityFeedback(error.message || 'We could not load available times.');
+        setFormData((current) => (
+          current.preferredTime ? { ...current, preferredTime: '' } : current
+        ));
+      });
+
+    return () => controller.abort();
+  }, [selectedDate, selectedDuration]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((current) => ({
       ...current,
       [name]: value,
+      ...(name === 'preferredDate'
+        ? { preferredTime: '' }
+        : {}),
       ...(name === 'durationMinutes' && !getTimeOptions(value).includes(current.preferredTime)
         ? { preferredTime: '' }
         : {}),
@@ -94,6 +163,12 @@ const SchedulePage = () => {
     if (!formData.preferredDate || !formData.preferredTime) {
       setStatus('error');
       setFeedback('Please choose a preferred date and time before sending the request.');
+      return;
+    }
+
+    if (!availableTimes.includes(formData.preferredTime)) {
+      setStatus('error');
+      setFeedback('Please choose an available time before sending the request.');
       return;
     }
 
@@ -285,6 +360,7 @@ const SchedulePage = () => {
                       name="preferredDate"
                       value={formData.preferredDate}
                       onChange={handleChange}
+                      onInput={handleChange}
                       className={inputClass}
                       min={minDate}
                       required
@@ -298,15 +374,30 @@ const SchedulePage = () => {
                       value={formData.preferredTime}
                       onChange={handleChange}
                       className={`${inputClass} cursor-pointer`}
+                      disabled={!formData.preferredDate || availabilityStatus === 'loading' || availableTimes.length === 0}
+                      aria-busy={availabilityStatus === 'loading'}
                       required
                     >
-                      <option value="">Select a time</option>
-                      {timeOptions.map((time) => (
+                      <option value="">
+                        {!formData.preferredDate
+                          ? 'Choose a date first'
+                          : availabilityStatus === 'loading'
+                            ? 'Loading times'
+                            : availableTimes.length === 0
+                              ? 'No times available'
+                              : 'Select a time'}
+                      </option>
+                      {availableTimes.map((time) => (
                         <option key={time} value={time}>
                           {time}
                         </option>
                       ))}
                     </select>
+                    {availabilityFeedback && (
+                      <span className="mt-3 block text-[14px] leading-[1.25] text-black/50 md:text-[16px]">
+                        {availabilityFeedback}
+                      </span>
+                    )}
                   </label>
                 </div>
 
