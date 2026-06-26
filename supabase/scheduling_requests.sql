@@ -1,5 +1,3 @@
-create extension if not exists btree_gist;
-
 create table if not exists public.scheduling_requests (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
@@ -39,24 +37,41 @@ create unique index if not exists scheduling_requests_active_slot_unique
   on public.scheduling_requests (preferred_date, preferred_time)
   where status in ('new', 'confirmed');
 
-do $$
+create index if not exists scheduling_requests_active_date_idx
+  on public.scheduling_requests (preferred_date)
+  where status in ('new', 'confirmed');
+
+create or replace function public.prevent_scheduling_request_overlap()
+returns trigger
+language plpgsql
+as $$
 begin
-  if not exists (
-    select 1
-    from pg_constraint
-    where conname = 'scheduling_requests_no_active_overlap'
-      and conrelid = 'public.scheduling_requests'::regclass
-  ) then
-    alter table public.scheduling_requests
-      add constraint scheduling_requests_no_active_overlap
-      exclude using gist (
-        preferred_date with =,
-        tsrange(
-          preferred_date + preferred_time::time,
-          preferred_date + preferred_time::time + (duration_minutes * interval '1 minute'),
-          '[)'
-        ) with &&
-      )
-      where (status in ('new', 'confirmed'));
+  if new.status in ('new', 'confirmed') then
+    if exists (
+      select 1
+      from public.scheduling_requests existing
+      where existing.id is distinct from new.id
+        and existing.status in ('new', 'confirmed')
+        and existing.preferred_date = new.preferred_date
+        and (existing.preferred_date + existing.preferred_time::time)
+          < (new.preferred_date + new.preferred_time::time + (new.duration_minutes * interval '1 minute'))
+        and (existing.preferred_date + existing.preferred_time::time + (existing.duration_minutes * interval '1 minute'))
+          > (new.preferred_date + new.preferred_time::time)
+    ) then
+      raise exception 'Scheduling request overlaps with an existing active schedule.'
+        using errcode = '23P01';
+    end if;
   end if;
-end $$;
+
+  return new;
+end;
+$$;
+
+drop trigger if exists scheduling_requests_no_active_overlap
+  on public.scheduling_requests;
+
+create trigger scheduling_requests_no_active_overlap
+  before insert or update of preferred_date, preferred_time, duration_minutes, status
+  on public.scheduling_requests
+  for each row
+  execute function public.prevent_scheduling_request_overlap();
