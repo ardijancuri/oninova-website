@@ -5,7 +5,6 @@ import oninovaIcon from '../assets/images/oninova-icon.svg';
 const SecondSection = () => {
   const videoRef = useRef(null);
   const [hasPlayedOnce, setHasPlayedOnce] = useState(false);
-  const [isInViewport, setIsInViewport] = useState(false);
 
   const areas = [
     "Product Strategy",
@@ -18,13 +17,13 @@ const SecondSection = () => {
 
   // Intersection Observer to detect when video enters viewport
   useEffect(() => {
+    const videoElement = videoRef.current;
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasPlayedOnce) {
-          setIsInViewport(true);
-          if (videoRef.current) {
-            videoRef.current.currentTime = 0;
-            videoRef.current.play();
+          if (videoElement) {
+            videoElement.currentTime = 0;
+            videoElement.play();
             setHasPlayedOnce(true);
           }
         }
@@ -32,13 +31,13 @@ const SecondSection = () => {
       { threshold: 0.5 } // Trigger when 50% of video is visible
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    if (videoElement) {
+      observer.observe(videoElement);
     }
 
     return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
+      if (videoElement) {
+        observer.unobserve(videoElement);
       }
     };
   }, [hasPlayedOnce]);

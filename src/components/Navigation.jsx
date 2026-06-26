@@ -43,6 +43,14 @@ const Navigation = ({ textColor = 'white', inFlow = false, hideBottomCorners = f
           )}
         </div>
 
+        {inFlow && (
+          <div className="lg:hidden flex items-center pl-4">
+            <Link to="/" aria-label="Oninova home">
+              <img src={logo} alt="Oninova" className="w-[150px]" />
+            </Link>
+          </div>
+        )}
+
         {/* Navigation Links - Hidden on mobile/tablet */}
         <div className={`hidden lg:flex space-x-24 ${desktopLinksClass}`}>
           <Link 
@@ -62,15 +70,15 @@ const Navigation = ({ textColor = 'white', inFlow = false, hideBottomCorners = f
         {/* Contact Button - Hidden on mobile/tablet */}
         <div className="hidden lg:flex items-center relative">
           <div className={`bg-white ${desktopShellClass} flex ${actionShellAlignClass} justify-center rounded-bl-[30px]`}>
-            <a 
-              href="mailto:contact@oninova.net"
+            <Link 
+              to="/schedule"
               className={`${buttonClass} ${desktopButtonClass}`}
             >
-              <span>Contact Us</span>
+              <span>Schedule</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17l9.2-9.2M17 17V7H7" />
               </svg>
-            </a>
+            </Link>
           </div>
           {/* Inverted border radius on top-left - outside container */}
           <div className="absolute top-0 -left-8 w-8 h-8 rounded-tr-[30px] shadow-[10px_-5px_0px_5px_#ffffff]"></div>
@@ -128,15 +136,16 @@ const Navigation = ({ textColor = 'white', inFlow = false, hideBottomCorners = f
             >
               Work
             </Link>
-            <a
-              href="mailto:contact@oninova.net"
+            <Link
+              to="/schedule"
+              onClick={() => setMobileMenuOpen(false)}
               className="bg-white text-[#231F20] px-8 py-4 rounded-[14px] uppercase font-semibold text-2xl flex items-center space-x-2 mt-4"
             >
-              <span>Contact Us</span>
+              <span>Schedule</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17l9.2-9.2M17 17V7H7" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
       )}
